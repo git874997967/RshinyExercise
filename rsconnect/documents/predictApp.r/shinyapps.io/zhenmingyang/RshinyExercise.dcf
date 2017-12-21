@@ -1,0 +1,12 @@
+name: RshinyExercise
+title: RshinyExercise
+username:
+account: zhenmingyang
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 251008
+bundleId: 1146790
+url: https://zhenmingyang.shinyapps.io/RshinyExercise/
+when: 1513887598.49367
+asMultiple: FALSE
+asStatic: FALSE
