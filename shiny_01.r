@@ -221,4 +221,26 @@ Server=shinyServer(function(input, output) {
   })
 })
 shinyApp(UI, Server)
+#example with images
+library(shiny)
+
+ui <- fluidPage(
+  titlePanel("My Shiny App"),
+  sidebarLayout(
+    sidebarPanel(),
+    mainPanel(
+      img(src = "/www/rstudio.png", height = 140, width = 400),
+      img(src = "/rstudio.png", height = 140, width = 400),
+      img(src = "www/rstudio.png", height = 140, width = 400),
+      img(src ='rstudio.png', height = 140, width = 400)
+    )
+  )
+)
+server <- function(input, output, session) {
+  
+}
+
+shinyApp(ui, server)
+
+
 
