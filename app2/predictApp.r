@@ -144,73 +144,87 @@ ui <- fluidPage(
     ),
     fluidRow(column(6,
                     fluidRow(
-                      wellPanel(
-                        tags$div(
+                      wellPanel(tags$div(
                         class = 'media',
-                        tags$div(class='media-left',
-                        imageOutput(
-                          outputId = "cutImg",
-                          width = "100%",
-                          height = "100%"
-                        )),
+                        tags$div(
+                          class = 'media-left',
+                          imageOutput(
+                            outputId = "cutImg",
+                            width = "100%",
+                            height = "100%"
+                          )
+                        ),
                         tags$div(class = 'media-body',
-                                h3(textOutput("cut")),
+                                 h3(textOutput("cut")),
                                  h4(textOutput('cutDesc')))
                         
                       ))
                     )),
              column(6,
                     fluidRow(
-                      wellPanel(
+                      wellPanel(tags$div(
+                        class = 'media',
                         tags$div(
-                          class = 'media',
-                          tags$div(class='media-left',
+                          class = 'media-left',
                           imageOutput(
                             outputId = "colorImg",
                             width = "100%",
                             height = "100%"
-                          )),
-                          tags$div(class = 'media-body',
-                                   h3(textOutput("color")),
-                                    h4(textOutput('colorDesc')))
-                          
-                        ))
+                          )
+                        ),
+                        tags$div(class = 'media-body',
+                                 h3(textOutput("color")),
+                                 h4(textOutput('colorDesc')))
+                        
+                      ))
                     ))),
     fluidRow(column(6,
                     fluidRow(
-                      wellPanel(
+                      wellPanel(tags$div(
+                        class = 'media',
                         tags$div(
-                          class = 'media',
-                          tags$div(class='media-left',
+                          class = 'media-left',
                           imageOutput(
                             outputId = "clarityImg",
                             width = "100%",
                             height = "100%"
-                          )),
-                          tags$div(class = 'media-body',
-                                   h3(textOutput("clarity")),
-                                    h4(textOutput('clarityDesc')))
-                          
-                        ))
+                          )
+                        ),
+                        tags$div(class = 'media-body',
+                                 h3(textOutput("clarity")),
+                                 h4(textOutput('clarityDesc')))
+                        
+                      ))
                     )),
              column(6,
                     fluidRow(
-                      wellPanel(
+                      wellPanel(tags$div(
+                        class = 'media',
                         tags$div(
-                          class = 'media',
-                          tags$div(class='media-left',
-                                  imageOutput(
+                          class = 'media-left',
+                          imageOutput(
                             outputId = "certImg",
                             width = "100%",
                             height = "100%"
-                          )),
-                         
-                          tags$div(class = 'media-body',
-                                   h3(textOutput("cert")),
-                                    h4(textOutput('certDesc')))
-                          
-                        ))
-                    )))
+                          )
+                        ),
+                        
+                        tags$div(class = 'media-body',
+                                 h3(textOutput("cert")),
+                                 h4(textOutput('certDesc')))
+                        
+                      ))
+                    ))),
+    fluidRow(column(6, wellPanel(
+      tableOutput(outputId = 'diamondInfo'),
+      tableOutput(outputId = 'results')
+    )),
+    column(6, wellPanel(
+      tags$div(class='text-center',
+                h3(textOutput('result'))
+               )
+    )))
+    
   )
 )
 
@@ -230,14 +244,14 @@ server <- function(input, output, session) {
   output$cutDesc = renderText({
     cutInfo[1, cutColumn() + 1]
   })
-  output$cutImg <-renderImage({
+  output$cutImg <- renderImage({
     return(list(
-      src =cutInfo[2,cutColumn()+1],
+      src = cutInfo[2, cutColumn() + 1],
       contentType = "image/png",
-      alt = cutInfo[2,cutColumn()+1]
+      alt = cutInfo[2, cutColumn() + 1]
     ))
-
-  },deleteFile = FALSE)
+    
+  }, deleteFile = FALSE)
   #color rendering
   output$color = renderText({
     paste("Color:", input$color, seq = ' ')
@@ -260,14 +274,14 @@ server <- function(input, output, session) {
   output$colorDesc = renderText({
     colorInfo[1, colorColumn() + 1]
   })
-  output$colorImg <-renderImage({
+  output$colorImg <- renderImage({
     return(list(
-      src =colorInfo[2,colorColumn()+1],
+      src = colorInfo[2, colorColumn() + 1],
       contentType = "image/png",
-      alt = colorInfo[2,colorColumn()+1]
+      alt = colorInfo[2, colorColumn() + 1]
     ))
     
-  },deleteFile = FALSE)
+  }, deleteFile = FALSE)
   #clarity rendering
   output$clarity = renderText({
     paste("Clarity:", input$clarity, seq = ' ')
@@ -291,14 +305,14 @@ server <- function(input, output, session) {
     clarityInfo[1, clarityColumn() + 1]
   })
   
-  output$clarityImg <-renderImage({
+  output$clarityImg <- renderImage({
     return(list(
-      src =clarityInfo[2,clarityColumn()+1],
+      src = clarityInfo[2, clarityColumn() + 1],
       contentType = "image/png",
-      alt = clarityInfo[2,clarityColumn()+1]
+      alt = clarityInfo[2, clarityColumn() + 1]
     ))
     
-  },deleteFile = FALSE)
+  }, deleteFile = FALSE)
   
   
   # cert rendering
@@ -323,14 +337,14 @@ server <- function(input, output, session) {
     certInfo[1, certColumn() + 1]
   })
   
-  output$certImg <-renderImage({
+  output$certImg <- renderImage({
     return(list(
-      src =certInfo[2,certColumn()+1],
+      src = certInfo[2, certColumn() + 1],
       contentType = "image/png",
-      alt = certInfo[2,certColumn()+1]
+      alt = certInfo[2, certColumn() + 1]
     ))
     
-  },deleteFile = FALSE)
+  }, deleteFile = FALSE)
   
   output$diamondInfo = renderTable({
     diamondTest = data.frame(
@@ -366,6 +380,9 @@ server <- function(input, output, session) {
     colnames(results) = c("multiLinear", "KNN", "randomForest")
     results
     ## collectdata finished lack of chose should be done later
+  })
+  output$result=renderText({
+   paste("The predicted price is:",'abc',seq='')
   })
   
 }
